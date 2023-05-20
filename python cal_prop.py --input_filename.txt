@@ -1,0 +1,4 @@
+python cal_prop.py --input_filename=smiles.txt --output_filename=smiles_prop.txt
+python -u train.py --prop_file=smiles_prop.txt --save_dir=./save
+python sample.py --prop_file=smiles_prop.txt --save_file=save/model_1.ckpt-1 --target_prop 222.089208928 2.1609999999999996 36.92 --result_filename=result.txt
+https://github.com/jaechanglim/CVAE

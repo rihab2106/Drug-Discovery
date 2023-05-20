@@ -1,0 +1,162 @@
+{% load static %}
+{% include 'base/header.html' %}
+
+<style>
+    .upgrade-link {
+        display: inline-block;
+        padding: 10px 20px;
+        background: #3498db;
+         color: #fff;
+        text-decoration: none;
+        border-radius: 30px;
+        font-weight: bold;
+        box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
+        transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .upgrade-link:hover {
+        background-color: #3498db; /* Hover color */
+        transform: scale(1.05);
+        color: aliceblue;
+    }
+</style>
+<section class="section">
+    <div class="container" style="margin-top: 30px">
+     <div class="section-title aos-init aos-animate" data-aos="fade-up">
+          <h2>properties to smiles</h2>
+        </div>
+
+        <div class="row gy-4">
+
+            <div class="col-lg-4">
+                <form action="{% url 'generate_smile' %}" method="post">
+                    {% csrf_token %}
+
+                    <div class="form-group">
+                        <label for="id_MW">MW:</label>
+                        {{ predict_mol_form.MW }}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_LogP">LogP:</label>
+                        {{ predict_mol_form.LogP }}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_TPSA">TPSA:</label>
+                        {{ predict_mol_form.TPSA }}
+                    </div>
+
+                    <div class="form-group center">
+                        <button type="submit" class="btn btn-dark" style="margin-top: 5px;width: 200px">OK</button>
+                        {% if not user.isPremium %}
+                        <br>
+                        <br>
+                        <a class="upgrade-link"  value="{{ user.id }}" href="{% url 'upgrade' %}?id={{ user.id }} ">Upgrade to Premium</a>
+                        {% endif %}
+                    </div>
+                </form>
+            </div>
+
+            <div class="col-lg-8">
+                <div class="row">
+                    {% for s, props_img in smiles.items %}
+                        {% with img_base64=props_img.3 MW=props_img.0 LogP=props_img.1 TPSA=props_img.2 %}
+                           {% if forloop.counter > smiles|length|add:"-3"  %}
+                                <div class="col-lg-6">
+                                    <div class="portfolio-details-slider swiper">
+                                        <div class="swiper-wrapper align-items-center">
+                                            <div class="swiper-slide">
+                                                <img src="data:image/png;base64,{{ img_base64 }}" alt="Molecule Image"
+                                                     style="max-width: 70%; height: auto;">
+                                            </div>
+                                        </div>
+                                        <div class="swiper-pagination"></div>
+                                    </div>
+                                    <div class="portfolio-info">
+                                        <h3>{{ s }}</h3>
+                                        <ul>
+                                            <li><strong>MW</strong>: {{ MW }}</li>
+                                            <li><strong>LogP</strong>: {{ LogP }}</li>
+                                            <li><strong>TPSA</strong>: {{ TPSA }}</li>
+
+                                        {% if user.isPremium %}
+                                            <li>
+                                                <a class="anchor-link" value="{{ s }}"
+                                                   href="{% url 'retro' %}?smile={{ s }}">Retrosynthesis</a>
+                                            </li>
+                                        {% endif %}
+                                        </ul>
+                                    </div>
+                                </div>
+                                {% elif not user.isPremium %}
+                                    <div class="col-lg-6" style="filter: blur(5px); -webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;">
+                                        <div class="portfolio-details-slider swiper">
+                                            <div class="swiper-wrapper align-items-center">
+                                                <div class="swiper-slide">
+                                                    <img src="data:image/png;base64,{{ img_base64 }}" alt="Molecule Image"
+                                                         style="max-width: 70%; height: auto;">
+                                                </div>
+                                            </div>
+                                            <div class="swiper-pagination"></div>
+                                        </div>
+                                        <div class="portfolio-info">
+                                            <h3>{{ s }}</h3>
+                                            <ul>
+                                                <li><strong>MW</strong>: {{ MW }}</li>
+                                                <li><strong>LogP</strong>: {{ LogP }}</li>
+                                                <li><strong>TPSA</strong>: {{ TPSA }}</li>
+                                        {% if user.isPremium %}
+                                            <li>
+                                                <a class="anchor-link" value="{{ s }}"
+                                                   href="{% url 'retro' %}?smile={{ s }}">Retrosynthesis</a>
+                                            </li>
+                                        {% endif %}
+
+                                            </ul>
+                                        </div>
+                                    </div>
+                                        {% else %}
+                                    <div class="col-lg-6">
+
+                                        <div class="portfolio-details-slider swiper">
+                                        <div class="swiper-wrapper align-items-center">
+                                            <div class="swiper-slide">
+                                                <img src="data:image/png;base64,{{ img_base64 }}" alt="Molecule Image"
+                                                     style="max-width: 70%; height: auto;">
+                                            </div>
+                                        </div>
+                                        <div class="swiper-pagination"></div>
+                                    </div>
+                                    <div class="portfolio-info">
+                                        <h3>{{ s }}</h3>
+                                        <ul>
+                                            <li><strong>MW</strong>: {{ MW }}</li>
+                                            <li><strong>LogP</strong>: {{ LogP }}</li>
+                                            <li><strong>TPSA</strong>: {{ TPSA }}</li>
+                                                 {% if user.isPremium %}
+                                            <li>
+                                                <a class="anchor-link" value="{{ s }}"
+                                                   href="{% url 'retro' %}?smile={{ s }}">Retrosynthesis</a>
+                                            </li>
+                                        {% endif %}
+                                        </ul>
+                                    </div>
+                                </div>
+
+                            {% endif %}
+                        {% endwith %}
+                        {% if forloop.counter|divisibleby:2 %}
+                            </div>
+                            <div class="row">
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</section>
+
+{% include 'base/footer.html' %}

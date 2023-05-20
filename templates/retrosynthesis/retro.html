@@ -1,0 +1,45 @@
+{% load static %}
+{% include 'base/header.html' %}
+
+  <section class="section">
+
+    <div id="portfolio-details" class="portfolio-details">
+        <div class="container">
+        <div class="section-title aos-init aos-animate" data-aos="fade-up">
+          <h2>Retrosynthesis</h2>
+        </div>
+            <div class="row gy-4">
+                {% for s, props_img in retro.items %}
+                    {% with predicted_site=props_img.0 local_reaction_template=props_img.1 score=props_img.2 img_base64=props_img.3 %}
+
+                        <div class="col-lg-6">
+                            <div class="portfolio-details-slider swiper">
+                                <div class="swiper-wrapper align-items-center">
+                                    <div class="swiper-slide">
+                                        <img src="data:image/png;base64,{{ img_base64 }}" alt="Molecule Image"
+                                             style="max-width: 70%; height: auto;">
+                                    </div>
+                                </div>
+                                <div class="swiper-pagination"></div>
+                            </div>
+                            <div class="portfolio-info" style="word-wrap: break-word">
+                                <h3>{{ s }}</h3>
+                                <ul>
+                                    <li><strong>Predicted Site</strong>: {{ predicted_site }}</li>
+                                    <li><strong>Local Reaction Template</strong>: {{ local_reaction_template }}</li>
+                                    <li><strong>Score</strong>: {{ score }}</li>
+
+                                </ul>
+                            </div>
+                        </div>
+
+                    {% endwith %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+{% include 'base/footer.html' %}

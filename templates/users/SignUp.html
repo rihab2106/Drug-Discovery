@@ -1,0 +1,63 @@
+{% extends 'base/index.html' %}
+{% block sign_up %}
+<div class="row">
+  <div class="col-lg-5" data-aos="fade-up" data-aos-delay="300">
+    <div class="text-center">
+      <form action="{% url 'signup' %}" method="POST" role="form" class="form">
+        {% csrf_token %}
+        <div class="form-group mb-3">
+          {{ form.username }}
+        </div>
+        <div class="form-group mb-3">
+          {{ form.email }}
+        </div>
+        <div class="form-group mb-3">
+          {{ form.password }}
+        </div>
+{#        <div class="form-group">#}
+{#          {{ form.isPremium }}#}
+{#          <label class="form-check-label" for="{{ form.is_premium.id_for_label }}">Upgrade to Premium</label>#}
+{#        </div>#}
+        <div class="text-center">
+          <button type="submit" class="btn btn-primary" style="background: #3498db;
+    padding: 8px 25px;
+    margin-left: 30px;
+    border-radius: 50px;
+    color: #fff; border-color:#3498db ">Sign up</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="col-lg-1" data-aos="fade-up" data-aos-delay="300">
+    <hr class="vertical-divider">
+  </div>
+
+  <div class="col-lg-5" data-aos="fade-up" data-aos-delay="300">
+    <div class="text-center">
+      <form action="{% url 'login' %}" method="POST" role="form" class="form">
+        {% csrf_token %}
+        <div class="form-group mb-3">
+          {{ login.username }}
+        </div>
+        <div class="form-group mb-3">
+          {{ login.password }}
+        </div>
+        <div class="text-center">
+          <button type="submit" class="btn btn-primary" style="background: #3498db;
+    padding: 8px 25px;
+    margin-left: 30px;
+    border-radius: 50px;
+    color: #fff; border-color:#3498db ">Log in</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+
+
+
+
+

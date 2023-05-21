@@ -1,0 +1,28 @@
+# Drug-Discovery
+
+This repository contains the source code for Drug-Discovery. 
+
+## Prerequisites
+
+Before running the application, make sure you have Docker installed on your machine. You can download Docker from the official website: [https://www.docker.com/get-started](https://www.docker.com/get-started).
+
+## Installation
+
+To get started, follow these steps:
+
+1. Clone the repository
+2. Pull the required Docker images:
+   ```shell
+  docker pull aymight/retroimage:1.0
+  docker pull aymight/propsimage:1.0
+  
+  
+ ##Usage
+docker run -it aymight/retroimage:1.0
+docker run -it aymight/propsimage:1.0
+
+
+
+
+
+
